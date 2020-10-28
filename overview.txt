@@ -1,0 +1,10 @@
+Our project is to develop a program which will read in a post-slice 3D print model and check whether or not the model has all required supports.
+
+Depending on our progress, we would also like to implement features to add in these supports, and to optimise the supports in the following ways:
+
+- use the least possible material
+- be as easy to remove as possible
+- merge/bridge supports where possible
+
+The program must accept the basic file format, which will be a .zip file containing many .png files, with each representing one layer of the model.
+We would also like to be able to read in a second, more complicated file type, but this will depend on our progress.
