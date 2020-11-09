@@ -1,4 +1,4 @@
-User Storiy
+User Story
 
   The user wants to print their 3D model that they have created in a CAD program. They have this model saved in its splices. 
   In order to avoid the print from failing they want to use our program to scan through the model and add supports to the model
