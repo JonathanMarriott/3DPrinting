@@ -5,7 +5,11 @@ import java.util.Scanner;
 public class ReadFile {
   public static void main(String[] args) {
     try {
-      File myObj = new File("filename.txt");
+      Scanner inputScanner = new Scanner(System.in);
+      System.out.println("Enter input filename: ");
+      String fileName = inputScanner.nextLine();
+
+      File myObj = new File(fileName);
       Scanner myReader = new Scanner(myObj);
       while (myReader.hasNextLine()) {
         String data = myReader.nextLine();
