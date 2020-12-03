@@ -1,13 +1,14 @@
+package main.FileConversion;
+
 import java.io.ByteArrayOutputStream;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
-
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class ImageToByteArray {
-  public static void main(String args[]) throws Exception {
+public class FileInput {
+  public static void main(String[] args) throws Exception {
     Scanner inputScanner = new Scanner(System.in);
     System.out.println("Enter input filename: ");
     String fileName = inputScanner.nextLine();
@@ -19,4 +20,5 @@ public class ImageToByteArray {
 
     System.out.println(Arrays.toString(data));
   }
+
 }
