@@ -14,5 +14,6 @@
     <orderEntry type="library" name="Maven: org.zeroturnaround:zt-zip:1.14" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.6" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.30" level="project" />
+    <orderEntry type="library" name="Maven: com.alexdupre:pngj:2.1.2.1" level="project" />
   </component>
 </module>
