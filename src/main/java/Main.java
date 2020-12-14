@@ -6,6 +6,8 @@ import java.util.Scanner;
 import static FileConversion.FileInput.Sl1opener;
 import static FileConversion.FileInput.pngToBitSets;
 
+import IslandDetection.IslandDetection;
+
 public class Main {
     public static void main(String[] args){
         //TODO Testing
@@ -32,7 +34,7 @@ public class Main {
             output.add(pngToBitSets(png));
         }
         BitSet[][] result =  output.toArray(new BitSet[output.size()][]);
-
+        IslandDetection.checkIslands(result);
 
 
 
