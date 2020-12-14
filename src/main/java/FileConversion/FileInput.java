@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Scanner;
 
@@ -24,7 +24,7 @@ public class FileInput {
     BufferedImage bImage = ImageIO.read(new File(fileName));
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
     ImageIO.write(bImage, "png", bos);
-    byte[] data = bos.toByteArray();
+    //byte[] data = bos.toByteArray();
 //    System.out.println(Arrays.toString(data));
 //    pngToBitSets("./tmp/pngs/Original_Prusa_SL1_Calibration_test_object_v200000.png");
   }
