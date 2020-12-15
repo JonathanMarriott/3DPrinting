@@ -1,8 +1,12 @@
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Objects;
 import java.util.Scanner;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
 
 import static FileConversion.FileInput.Sl1opener;
 import static FileConversion.FileInput.pngToBitSets;
@@ -40,7 +44,18 @@ public class Main {
         BitSet[][] result = output.toArray(new BitSet[output.size()][]);
 
         System.out.println("Checking for Islands");
-        byte[][][] stateModel = IslandDetection.checkIslands(result);
+        int layers = pngFiles.length;
+        int rows = -1, columns = -1;
+        try{
+            BufferedImage bimg = ImageIO.read(pngFiles[0]);
+            rows = bimg.getHeight();
+            columns = bimg.getWidth();
+        } catch (IOException e){
+            e.printStackTrace();
+            System.exit(0);
+        }
+        
+        byte[][][] stateModel = IslandDetection.checkIslands(result, layers, rows, columns);
         System.out.println("Adding Supports");
         BitSet[][] supportedModel = Supporter.buildSupportsBasic(stateModel);
         //BitSet[][] supportedModel = result;

@@ -11,13 +11,13 @@ public class IslandDetection {
     public static final byte CONNECTED = 3;
 
 
-    public static byte[][][] checkIslands (BitSet[][] model){
-        byte[][][] stateModel = new byte[model.length][model[0].length][model[0][0].size()];
+    public static byte[][][] checkIslands (BitSet[][] model, int layers, int rows, int columns){
+        byte[][][] stateModel = new byte[layers][rows][columns];
 
         //i is layer, j is row, k is column
-        for (int i = 0; i < model.length; i++){
-            for (int j = 0; j < model[i].length; j++){
-                for (int k = 0; k < model[i][j].size(); k++){
+        for (int i = 0; i < layers; i++){
+            for (int j = 0; j < rows; j++){
+                for (int k = 0; k < columns; k++){
                     //System.out.println(model[i][j].size());
                     //System.out.println(model[i][j].length());
                     if (i == 0){

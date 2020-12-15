@@ -31,10 +31,19 @@ public class Supporter {
             for(int j = 0; j < WIDTH; j++){
                 byte[] row = slice[j];
                 //Cell[] row = slice[j];
+                outSet[i][j] = new BitSet(DEPTH);
                 for(int k = 0; k < DEPTH; k++){
 
-                    outSet[i][j] = new BitSet(DEPTH);
-
+                    //test cell - I know that in the testSlice, 0,907,542 is a white pixel
+                    /* 
+                    if (i == 0) {
+                        if (j == 907) {
+                            if (k == 542) {
+                                System.out.println();
+                            }
+                        }
+                    }
+                    */
                     byte cell = row[k];
                     //Cell cell = row[k];
                     if(cellOn(cell)) {
