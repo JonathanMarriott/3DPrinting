@@ -10,7 +10,7 @@ public class IslandDetection {
     public static final byte ISLAND = 2;
     public static final byte CONNECTED = 3;
 
-    
+
     public static byte[][][] checkIslands (BitSet[][] model){
         byte[][][] stateModel = new byte[model.length][model[0].length][model[0][0].size()];
 

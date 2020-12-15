@@ -33,10 +33,11 @@ public class Main {
         for(File png:pngFiles){// converts each png to an array of bitsets
             output.add(pngToBitSets(png));
         }
-        BitSet[][] result =  output.toArray(new BitSet[output.size()][]);
-        IslandDetection.checkIslands(result);
+        BitSet[][] result = output.toArray(new BitSet[output.size()][]);
+        
+        byte[][][] stateModel = IslandDetection.checkIslands(result);
 
-
+        BitSet[][] supportedModel = Supporter.buildSupportsBasic(stateModel);
 
 
     }

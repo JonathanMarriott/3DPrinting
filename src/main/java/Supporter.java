@@ -5,39 +5,55 @@ public class Supporter {
     public static void main(String[] args){
     }
 
-    public static boolean[][][] buildSupportsBasic(Cell[][][] cells){
-        int HEIGHT = cells.length;
+    public static final byte OFF = 0;
+    public static final byte SUPPORTED = 1;
+    public static final byte ISLAND = 2;
+    public static final byte CONNECTED = 3;
+
+    public static BitSet[][] buildSupportsBasic(byte[][][] stateModel){
+        int HEIGHT = stateModel.length;
         if(HEIGHT == 0) return null;
-        int WIDTH = cells[0].length;
+        int WIDTH = stateModel[0].length;
         if(WIDTH == 0) return null;
-        int DEPTH = cells[0][0].length;
+        int DEPTH = stateModel[0][0].length;
         if(DEPTH == 0) return null;
 
 //        BitSet outSet = new BitSet(HEIGHT*WIDTH*DEPTH);
+        BitSet[][] outSet = new BitSet[HEIGHT][WIDTH];
 
-        boolean[][][] output = new boolean[HEIGHT][WIDTH][DEPTH];
+        //boolean[][][] output = new boolean[HEIGHT][WIDTH][DEPTH];
 
         boolean[][] supportNeeded = new boolean[WIDTH][DEPTH];
 
-        for(int i = HEIGHT; i >= 0; i--){
-            Cell[][] slice = cells[i];
+        for(int i = HEIGHT - 1; i >= 0; i--){
+            byte[][] slice = stateModel[i];
+            //Cell[][] slice = cells[i];
             for(int j = 0; j < WIDTH; j++){
-                Cell[] row = slice[j];
+                byte[] row = slice[j];
+                //Cell[] row = slice[j];
                 for(int k = 0; k < DEPTH; k++){
-                    Cell cell = row[k];
+
+                    outSet[i][j] = new BitSet(k);
+
+                    byte cell = row[k];
+                    //Cell cell = row[k];
                     if(cellOn(cell)) {
-                        output[i][j][k] = true;
+                        outSet[i][j].set(k, true);
+                        //output[i][j][k] = true;
                     }
-                    if (cell == Cell.UNSUPPORTED) {
+                    if (cell == ISLAND) {
                         supportNeeded[j][k] = true;
                     } else{
-                        if(supportNeeded[j][k]) output[i][j][k] = true;
+                        if(supportNeeded[j][k]) {
+                            outSet[i][j].set(k, true);
+                            //output[i][j][k] = true;
+                        }
                     }
                 }
             }
         }
 
-        return output;
+        return outSet;
     }
 
     public static int getPosition(int HEIGHT, int WIDTH, int DEPTH, int h, int w, int d){
@@ -46,8 +62,8 @@ public class Supporter {
         return sliceStart + rowStart + d;
     }
 
-    public static boolean cellOn(Cell cell){
-        if(cell == Cell.EMPTY) return false;
+    public static boolean cellOn(Byte cell){
+        if(cell == OFF) return false;
         return true;
     }
 }
