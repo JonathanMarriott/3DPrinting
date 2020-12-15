@@ -33,7 +33,7 @@ public class Supporter {
                 //Cell[] row = slice[j];
                 for(int k = 0; k < DEPTH; k++){
 
-                    outSet[i][j] = new BitSet(k);
+                    outSet[i][j] = new BitSet(DEPTH);
 
                     byte cell = row[k];
                     //Cell cell = row[k];
