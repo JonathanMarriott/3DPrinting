@@ -1,0 +1,7 @@
+The following groups of people are the potential stakeholders for the project.
+
+- Consumers who own a DLP 3D printer at home
+- Businesses which provide a 3D printing service who print models using DLP printers 
+- Developers who create software for 3D model design and DLP printer slicing 
+- Businesses which manufacture DLP printers 
+- 

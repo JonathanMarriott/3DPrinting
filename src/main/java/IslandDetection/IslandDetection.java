@@ -30,7 +30,10 @@ public class IslandDetection {
                     }
                     else{
                         if (model[i][j].get(k) == true){
-                            if(isSupported(model, i, j, k) == true) stateModel[i][j][k] = SUPPORTED;
+                            if(isSupported(stateModel, i, j, k) == true) stateModel[i][j][k] = SUPPORTED;
+                            else if (isConnected(stateModel, model, i, j, k) == true){
+                                stateModel[i][j][k] = CONNECTED;
+                            } 
                             else stateModel[i][j][k] = ISLAND;
                         }
                         else stateModel[i][j][k] = OFF;
@@ -68,7 +71,8 @@ public class IslandDetection {
         return model;
     }
     */
-
+    
+    /*
     private static boolean isSupported (BitSet[][] model, int layer, int row, int column){
         boolean supported = false;
         if (model[layer - 1][row].get(column) == true){
@@ -76,28 +80,35 @@ public class IslandDetection {
         }
         return supported;
     }
+    */
+    private static boolean isSupported (byte[][][] stateModel, int layer, int row, int column){
+        boolean supported = false;
+        if(layer == 0) return true;
+        if (stateModel[layer - 1][row][column] == SUPPORTED) supported = true;
+        return supported;
+    }
 
-    /* potential isConnected function
+    // returns true if above or diagonally above a supported or connected cell. Only supports gradient >= 1.
 
-    private boolean isConnected (BitSet[][] model, int column, int layer, int row){
+    private static boolean isConnected (byte[][][] stateModel, BitSet[][] model, int layer, int row, int column){
         boolean connected = false;
-        if (model[layer - 1][row].get(column) == true){
+        if(layer == 0) return true;
+        if (stateModel[layer - 1][row][column] == SUPPORTED) connected = true;
+        //the %2 == 1 bit checks whether it is supported or connected, as SUPPORTED(1) % 2 == 1 and CONNECTED(3) % 2 == 1
+        else if (stateModel[layer - 1][row-1][column] % 2 == 1 && model[layer][row-1].get(column) == true){
             connected = true;
         }
-        if (model[layer - 1][row-1].get(column) == true && model[layer][row-1].get(column) == true){
+        else if (stateModel[layer - 1][row+1][column] % 2 == 1 && model[layer][row+1].get(column) == true){
             connected = true;
         }
-        if (model[layer - 1][row+1].get(column) == true && model[layer][row+1].get(column) == true){
+        else if (stateModel[layer - 1][row][column] % 2 == 1 && model[layer][row].get(column-1) == true){
             connected = true;
         }
-        if (model[layer - 1][row].get(column-1) == true && model[layer][row].get(column-1) == true){
-            connected = true;
-        }
-        if (model[layer - 1][row].get(column-1) == true && model[layer][row].get(column-1) == true){
+        else if (stateModel[layer - 1][row][column] % 2 == 1 && model[layer][row].get(column-1) == true){
             connected = true;
         }
         return connected;
     }
-    */
+    
 
 }
