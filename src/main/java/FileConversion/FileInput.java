@@ -4,10 +4,7 @@ package FileConversion;
 import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -17,13 +14,15 @@ public class FileInput {
     Takes an Sl1 filename (assumed to be validated eg not a random zip of unknown files)
      extracts the contents(including config.ini) to the directory /tmp/pngs
      Returns directory of the extracted file
-     //TODO: Check the contents of the zip for the config ini and correct num of pngs
     */
-//TODO Testing
-  public static File Sl1opener(String fileName) {
+  public static File Sl1opener(String fileName) throws Exception {
     File sl1file = new File(fileName);
     File output = new File("." + File.separator + "tmp" + File.separator + "pngs");
     ZipUtil.unpack(sl1file, output);
+    if((Objects.requireNonNull(output.listFiles(path -> path.getName().equals("config.ini")))).length !=1){
+      throw new Exception("No config.ini found in SL1 file provided");
+    }
+
     return output;
 
   }

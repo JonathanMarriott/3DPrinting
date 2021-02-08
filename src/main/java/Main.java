@@ -38,7 +38,15 @@ public class Main {
         System.out.println("File opening");
         long startTime = System.nanoTime();
 
-        File pngDir = Sl1opener(sl1file); // Extracts the file and returns the directory
+        File pngDir = null; // Extracts the file and returns the directory
+        try {
+            pngDir = Sl1opener(sl1file);
+        } catch (Exception e) {
+            System.out.println("File is malformed");
+            e.printStackTrace();
+            System.exit(1);
+        }
+
         File[] pngFiles = pngDir.listFiles(pathname -> pathname.getName().endsWith(".png")); //Filters for png files
         assert pngFiles != null;
 
