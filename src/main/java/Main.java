@@ -81,7 +81,7 @@ public class Main {
         ZipUtil.pack(supportedDir,outFile);
         float zipStopTime = System.nanoTime();
         System.out.println("Zip creation time was: "+ (zipStopTime - zipStartTime)/1000000000 +"s");
-        deleteDirectory(supportedDir);
+        deleteDirectory(new File("." + File.separator + "tmp" ));
 
         stopTime = System.nanoTime();
         System.out.println("File creation time was: "+ (float)(stopTime - startTime)/1000000000 +"s");
