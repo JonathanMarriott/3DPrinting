@@ -4,8 +4,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import ar.com.hjg.pngj.*;
 import org.zeroturnaround.zip.ZipUtil;
@@ -80,18 +84,28 @@ public class FileOutput {
         PngReader reader = new PngReader(pngExample);
         File outDir = new File("."+File.separator+"tmp"+File.separator+"out");
         outDir.mkdir();//ok to ignore
+        ArrayList<CompletableFuture<Void>> futures = new ArrayList<>();
         for(int i = 0; i< model.length; i++){
             File outFile = new File("."+File.separator+"tmp"+File.separator+"out"+File.separator+jobDir+String.format("%05d",i)+".png");
-            try {
-                outFile.createNewFile();//ok to ignore
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            export(model[i],outFile,reader.getImgInfo());
+//            try {
+//                outFile.createNewFile();//ok to ignore
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+            futures.add(CompletableFuture.runAsync(new OutputRunnable(model[i],outFile, reader.getImgInfo())));
+            //export(model[i],outFile,reader.getImgInfo());
         }
         try {
             FileUtils.copyFile(configFile,new File("."+File.separator+"tmp"+File.separator+"out"+File.separator+"config.ini"));
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+        CompletableFuture[] cfs = futures.toArray(new CompletableFuture[0]); // Convert list of futures to an array
+        //allOf turns the array to futures into a single future with the result as a list once all futures have completed
+        CompletableFuture<Void> out = CompletableFuture.allOf(cfs);
+        try {
+            out.get();
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         return new File("."+File.separator+"tmp"+File.separator+"out");

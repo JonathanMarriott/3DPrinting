@@ -10,8 +10,8 @@ import java.util.function.Supplier;
 //PNG processing task which is executed concurrently
 //returns a object array {pos,Bitset[]} where index 0 is the position of the layer and index 1 is the bitset array for that layer
 public class InputSupplier implements Supplier<Object[]> {
-    private File pngFile;
-    private int pos;
+    private final File pngFile;
+    private final int pos;
 
     public InputSupplier(File pngFile, int pos) {
         this.pngFile = pngFile;

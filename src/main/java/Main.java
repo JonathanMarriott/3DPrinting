@@ -69,14 +69,20 @@ public class Main {
         System.out.println("Adding Supports");
         BitSet[][] supportedModel = Supporter.buildSupportsBasic(stateModel);
         //BitSet[][] supportedModel = result;
+
         System.out.println("Creating new File");
         startTime = System.nanoTime();
+
         File supportedDir = FileOutput.modelToPngs(supportedModel,
                 Objects.requireNonNull(pngDir.listFiles(path -> path.getName().equals("config.ini")))[0],
                 pngFiles[0]);
         File outFile = new File(sl1file.substring(0,sl1file.length()-4)+"SUPPORTED.sl1");
+        float zipStartTime = System.nanoTime();
         ZipUtil.pack(supportedDir,outFile);
+        float zipStopTime = System.nanoTime();
+        System.out.println("Zip creation time was: "+ (zipStopTime - zipStartTime)/1000000000 +"s");
         deleteDirectory(supportedDir);
+
         stopTime = System.nanoTime();
         System.out.println("File creation time was: "+ (float)(stopTime - startTime)/1000000000 +"s");
         System.out.println("Supported file at: "+outFile.getName());
