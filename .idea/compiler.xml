@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="3DPrinting" target="11" />
+      <module name="3DPrinting" target="15" />
     </bytecodeTargetLevel>
   </component>
 </project>

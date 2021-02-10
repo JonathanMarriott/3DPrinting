@@ -1,17 +1,18 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
 import static FileConversion.FileInput.Sl1opener;
-import static FileConversion.FileInput.pngToBitSets;
+import static FileConversion.FileInput.processPNGs;
+
 
 import FileConversion.FileOutput;
+import FileConversion.InputSupplier;
 import IslandDetection.IslandDetection;
 import org.zeroturnaround.zip.ZipUtil;
 
@@ -33,15 +34,27 @@ public class Main {
             sl1file = inputScanner.nextLine();
         }
         inputScanner.close();
+
         System.out.println("File opening");
-        File pngDir = Sl1opener(sl1file); // Extracts the file and returns the directory
+        long startTime = System.nanoTime();
+
+        File pngDir = null; // Extracts the file and returns the directory
+        try {
+            pngDir = Sl1opener(sl1file);
+        } catch (Exception e) {
+            System.out.println("File is malformed");
+            e.printStackTrace();
+            System.exit(1);
+        }
+
         File[] pngFiles = pngDir.listFiles(pathname -> pathname.getName().endsWith(".png")); //Filters for png files
         assert pngFiles != null;
-        ArrayList<BitSet[]> output = new ArrayList<>();
-        for(File png:pngFiles){// converts each png to an array of bitsets
-            output.add(pngToBitSets(png));
-        }
-        BitSet[][] result = output.toArray(new BitSet[output.size()][]);
+
+        //Concurrently converts PNGs to 3D matrix using BitSets
+        BitSet[][] result = processPNGs(pngFiles);
+
+        long stopTime = System.nanoTime();
+        System.out.println("File opening time was: "+ (float)(stopTime - startTime)/1000000000 +"s");
 
         System.out.println("Checking for Islands");
         int layers = pngFiles.length;
@@ -54,7 +67,7 @@ public class Main {
             e.printStackTrace();
             System.exit(0);
         }
-        
+
         byte[][][] stateModel = IslandDetection.checkIslands(result, layers, rows, columns);
         System.out.println("Adding Supports");
         BitSet[][] supportedModel = Supporter.buildSupportsBasic(stateModel);
