@@ -49,6 +49,7 @@ public static File Sl1opener(String fileName){
       }
       i++;
     }
+    reader.close();
     return outSet;
   }
 }

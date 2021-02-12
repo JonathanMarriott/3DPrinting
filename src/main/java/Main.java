@@ -1,23 +1,30 @@
+import static FileConversion.FileInput.Sl1opener;
+import static FileConversion.FileInput.pngToBitSets;
+
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Objects;
 import java.util.Scanner;
-import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
-import static FileConversion.FileInput.Sl1opener;
-import static FileConversion.FileInput.pngToBitSets;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.zeroturnaround.zip.ZipUtil;
 
 import FileConversion.FileOutput;
 import IslandDetection.IslandDetection;
-import org.zeroturnaround.zip.ZipUtil;
 
 public class Main {
     public static void main(String[] args){
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME); 
         //TODO Testing
+        long start = System.currentTimeMillis();
+       
+        
         Scanner inputScanner = new Scanner(System.in);
         String sl1file;
         if(args.length>0){
@@ -41,7 +48,9 @@ public class Main {
         for(File png:pngFiles){// converts each png to an array of bitsets
             output.add(pngToBitSets(png));
         }
+        //Mat[] results = output.toArray(new Mat[output.size()]);
         BitSet[][] result = output.toArray(new BitSet[output.size()][]);
+        
 
         System.out.println("Checking for Islands");
         int layers = pngFiles.length;
@@ -56,9 +65,11 @@ public class Main {
         }
         
         byte[][][] stateModel = IslandDetection.checkIslands(result, layers, rows, columns);
+        
+        
         System.out.println("Adding Supports");
-        BitSet[][] supportedModel = Supporter.buildSupportsBasic(stateModel);
-        //BitSet[][] supportedModel = result;
+        Mat[] supportedModel = Supporter.buildSupportsBasic(stateModel);
+
         System.out.println("Creating new File");
         File supportedDir = FileOutput.modelToPngs(supportedModel,
                 Objects.requireNonNull(pngDir.listFiles(path -> path.getName().equals("config.ini")))[0],
@@ -66,9 +77,10 @@ public class Main {
         File outFile = new File(sl1file.substring(0,sl1file.length()-4)+"SUPPORTED.sl1");
         ZipUtil.pack(supportedDir,outFile);
         deleteDirectory(supportedDir);
+        
+        
         System.out.println("Supported file at: "+outFile.getName());
-
-
+        System.out.println("Execution time " + (System.currentTimeMillis()-start)/1000.0 + " s");
 
     }
 
