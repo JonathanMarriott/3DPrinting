@@ -1,23 +1,26 @@
+import FileConversion.FileOutput;
+import IslandDetection.IslandDetection;
+import org.opencv.core.Mat;
+import org.zeroturnaround.zip.ZipUtil;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Objects;
 import java.util.Scanner;
-import java.awt.image.BufferedImage;
-
-import javax.imageio.ImageIO;
 
 import static FileConversion.FileInput.Sl1opener;
-import static FileConversion.FileInput.pngToBitSets;
-
-import FileConversion.FileOutput;
-import IslandDetection.IslandDetection;
-import org.zeroturnaround.zip.ZipUtil;
+import static FileConversion.FileInput.processPNGs;
 
 public class Main {
     public static void main(String[] args){
+        nu.pattern.OpenCV.loadLocally();
         //TODO Testing
+        long start = System.currentTimeMillis();
+
+
         Scanner inputScanner = new Scanner(System.in);
         String sl1file;
         if(args.length>0){
@@ -33,15 +36,27 @@ public class Main {
             sl1file = inputScanner.nextLine();
         }
         inputScanner.close();
+
         System.out.println("File opening");
-        File pngDir = Sl1opener(sl1file); // Extracts the file and returns the directory
+        long startTime = System.nanoTime();
+
+        File pngDir = null; // Extracts the file and returns the directory
+        try {
+            pngDir = Sl1opener(sl1file);
+        } catch (Exception e) {
+            System.out.println("File is malformed");
+            e.printStackTrace();
+            System.exit(1);
+        }
+
         File[] pngFiles = pngDir.listFiles(pathname -> pathname.getName().endsWith(".png")); //Filters for png files
         assert pngFiles != null;
-        ArrayList<BitSet[]> output = new ArrayList<>();
-        for(File png:pngFiles){// converts each png to an array of bitsets
-            output.add(pngToBitSets(png));
-        }
-        BitSet[][] result = output.toArray(new BitSet[output.size()][]);
+
+        //Concurrently converts PNGs to 3D matrix using BitSets
+        BitSet[][] result = processPNGs(pngFiles);
+
+        long stopTime = System.nanoTime();
+        System.out.println("File opening time was: "+ (float)(stopTime - startTime)/1000000000 +"s");
 
         System.out.println("Checking for Islands");
         int layers = pngFiles.length;
@@ -56,19 +71,25 @@ public class Main {
         }
         
         byte[][][] stateModel = IslandDetection.checkIslands(result, layers, rows, columns);
+
+
         System.out.println("Adding Supports");
-        BitSet[][] supportedModel = Supporter.buildSupportsBasic(stateModel);
-        //BitSet[][] supportedModel = result;
+        Mat[] supportedModel = Supporter.buildSupportsBasic(stateModel);
+
         System.out.println("Creating new File");
+
         File supportedDir = FileOutput.modelToPngs(supportedModel,
                 Objects.requireNonNull(pngDir.listFiles(path -> path.getName().equals("config.ini")))[0],
                 pngFiles[0]);
         File outFile = new File(sl1file.substring(0,sl1file.length()-4)+"SUPPORTED.sl1");
         ZipUtil.pack(supportedDir,outFile);
-        deleteDirectory(supportedDir);
+
+        deleteDirectory(new File("." + File.separator + "tmp" ));
+
+
+
         System.out.println("Supported file at: "+outFile.getName());
-
-
+        System.out.println("Execution time " + (System.currentTimeMillis()-start)/1000.0 + " s");
 
     }
 
