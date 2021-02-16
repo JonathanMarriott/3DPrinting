@@ -20,7 +20,7 @@ import IslandDetection.IslandDetection;
 
 public class Main {
     public static void main(String[] args){
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME); 
+        nu.pattern.OpenCV.loadLocally();
         //TODO Testing
         long start = System.currentTimeMillis();
        

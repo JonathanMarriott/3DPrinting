@@ -28,7 +28,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 public class FileOutput {
 
     public static File modelToPngs(Mat[] model, File configFile,File pngExample){
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME); 
+        //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         Properties config = new Properties();
         try (FileInputStream in = new FileInputStream(configFile)) {
             config.load(in);
