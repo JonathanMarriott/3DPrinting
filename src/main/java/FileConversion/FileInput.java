@@ -12,12 +12,12 @@ public class FileInput {
 
   /*
     Takes an Sl1 filename (assumed to be validated eg not a random zip of unknown files)
-     extracts the contents(including config.ini) to the directory /tmp/pngs
+     extracts the contents(including config.ini) to the directory /SliceSupporterTmp/pngs
      Returns directory of the extracted file
     */
   public static File Sl1opener(String fileName) throws Exception {
     File sl1file = new File(fileName);
-    File output = new File("." + File.separator + "tmp" + File.separator + "pngs");
+    File output = new File("." + File.separator + "SliceSupporterTmp" + File.separator + "pngs");
     ZipUtil.unpack(sl1file, output);
     if((Objects.requireNonNull(output.listFiles(path -> path.getName().equals("config.ini")))).length !=1){
       throw new Exception("No config.ini found in SL1 file provided");

@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -15,7 +16,10 @@ import java.util.concurrent.ExecutionException;
 
 public class FileOutput {
 
-    public static File modelToPngs(Mat[] model, File configFile,File pngExample){
+    public static File modelToPngs(Mat[] model, File sl1Dir){
+        File configFile = Objects.requireNonNull(sl1Dir.listFiles(path -> path.getName().equals("config.ini")))[0];
+        File pngExample = Objects.requireNonNull(sl1Dir.listFiles(pathname -> pathname.getName().endsWith(".png")))[0];
+        File prusaFile = Objects.requireNonNull(sl1Dir.listFiles(path -> path.getName().equals("prusaslicer.ini")))[0];
         Properties config = new Properties();
         try (FileInputStream in = new FileInputStream(configFile)) {
             config.load(in);
@@ -24,20 +28,19 @@ public class FileOutput {
         }
         String jobDir = (String) config.get("jobDir");
         PngReader reader = new PngReader(pngExample);
-        File outDir = new File("."+File.separator+"tmp"+File.separator+"out");
+        File outDir = new File("."+File.separator+"SliceSupporterTmp"+File.separator+"out");
         outDir.mkdir();//ok to ignore
         ArrayList<CompletableFuture<Void>> futures = new ArrayList<>();
         for(int i = 0; i< model.length; i++){
-            //File outFile = new File("."+File.separator+"tmp"+File.separator+"out"+File.separator+jobDir+String.format("%05d",i)+".png");
-            String stringFile = "."+File.separator+"tmp"+File.separator+"out"+File.separator+jobDir+String.format("%05d",i)+".png";
-            //Imgcodecs.imwrite(stringFile,model[i]);
+
+            String stringFile = "."+File.separator+"SliceSupporterTmp"+File.separator+"out"+File.separator+jobDir+String.format("%05d",i)+".png";
+
             futures.add(CompletableFuture.runAsync(new OutRunnable(stringFile,model[i])));
 
-//            File outFile = new File("."+File.separator+"tmp"+File.separator+"out"+File.separator+jobDir+String.format("%05d",i)+".png");
-//            futures.add(CompletableFuture.runAsync(new OutputRunnable(model[i],outFile, reader.getImgInfo())));
         }
         try {
-            FileUtils.copyFile(configFile,new File("."+File.separator+"tmp"+File.separator+"out"+File.separator+"config.ini"));
+            FileUtils.copyFile(configFile,new File("."+File.separator+"SliceSupporterTmp"+File.separator+"out"+File.separator+"config.ini"));
+            FileUtils.copyFile(prusaFile,new File("."+File.separator+"SliceSupporterTmp"+File.separator+"out"+File.separator+"prusaslicer.ini"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,7 +53,7 @@ public class FileOutput {
             e.printStackTrace();
         }
         reader.close();
-        return new File("."+File.separator+"tmp"+File.separator+"out");
+        return new File("."+File.separator+"SliceSupporterTmp"+File.separator+"out");
 
 
     }

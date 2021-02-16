@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.BitSet;
-import java.util.Objects;
 import java.util.Scanner;
 
 import static FileConversion.FileInput.Sl1opener;
@@ -17,8 +16,7 @@ import static FileConversion.FileInput.processPNGs;
 public class Main {
     public static void main(String[] args){
         nu.pattern.OpenCV.loadLocally();
-        //TODO Testing
-        long start = System.currentTimeMillis();
+        long startTime = System.nanoTime();
 
 
         Scanner inputScanner = new Scanner(System.in);
@@ -38,7 +36,7 @@ public class Main {
         inputScanner.close();
 
         System.out.println("File opening");
-        long startTime = System.nanoTime();
+
 
         File pngDir = null; // Extracts the file and returns the directory
         try {
@@ -55,8 +53,6 @@ public class Main {
         //Concurrently converts PNGs to 3D matrix using BitSets
         BitSet[][] result = processPNGs(pngFiles);
 
-        long stopTime = System.nanoTime();
-        System.out.println("File opening time was: "+ (float)(stopTime - startTime)/1000000000 +"s");
 
         System.out.println("Checking for Islands");
         int layers = pngFiles.length;
@@ -78,18 +74,14 @@ public class Main {
 
         System.out.println("Creating new File");
 
-        File supportedDir = FileOutput.modelToPngs(supportedModel,
-                Objects.requireNonNull(pngDir.listFiles(path -> path.getName().equals("config.ini")))[0],
-                pngFiles[0]);
+        File supportedDir = FileOutput.modelToPngs(supportedModel, pngDir);
         File outFile = new File(sl1file.substring(0,sl1file.length()-4)+"SUPPORTED.sl1");
         ZipUtil.pack(supportedDir,outFile);
 
-        deleteDirectory(new File("." + File.separator + "tmp" ));
+        assert(deleteDirectory(new File("." + File.separator + "SliceSupporterTmp" )));
 
-
-
-        System.out.println("Supported file at: "+outFile.getName());
-        System.out.println("Execution time " + (System.currentTimeMillis()-start)/1000.0 + " s");
+        long stopTime = System.nanoTime();
+        System.out.println("Supported file at: "+outFile.getName()+" in "+ (float)(stopTime - startTime)/1000000000 +"s");
 
     }
 
