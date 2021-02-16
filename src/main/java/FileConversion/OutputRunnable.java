@@ -4,7 +4,9 @@ import ar.com.hjg.pngj.ImageInfo;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.BitSet;
 
@@ -41,7 +43,8 @@ public class OutputRunnable implements Runnable{
         }
         try {
             // Save as PNG
-            ImageIO.write(outImage, "png", outputFile);
+            BufferedOutputStream imageOutputStream = new BufferedOutputStream(new FileOutputStream(outputFile));
+            ImageIO.write(outImage, "png", imageOutputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }

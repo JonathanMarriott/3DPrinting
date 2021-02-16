@@ -30,13 +30,7 @@ public class FileOutput {
         ArrayList<CompletableFuture<Void>> futures = new ArrayList<>();
         for(int i = 0; i< model.length; i++){
             File outFile = new File("."+File.separator+"tmp"+File.separator+"out"+File.separator+jobDir+String.format("%05d",i)+".png");
-//            try {
-//                outFile.createNewFile();//ok to ignore
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
             futures.add(CompletableFuture.runAsync(new OutputRunnable(model[i],outFile, reader.getImgInfo())));
-            //export(model[i],outFile,reader.getImgInfo());
         }
         try {
             FileUtils.copyFile(configFile,new File("."+File.separator+"tmp"+File.separator+"out"+File.separator+"config.ini"));
