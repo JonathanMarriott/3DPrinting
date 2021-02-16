@@ -2,20 +2,33 @@ import FileConversion.FileOutput;
 import IslandDetection.IslandDetection;
 import org.zeroturnaround.zip.ZipUtil;
 
-import javax.imageio.ImageIO;
+
 import java.awt.image.BufferedImage;
+import static FileConversion.FileInput.Sl1opener;
+
+
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Objects;
 import java.util.Scanner;
 
-import static FileConversion.FileInput.Sl1opener;
+import javax.imageio.ImageIO;
+
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+
+
 import static FileConversion.FileInput.processPNGs;
 
 public class Main {
     public static void main(String[] args){
+        nu.pattern.OpenCV.loadLocally();
         //TODO Testing
+        long start = System.currentTimeMillis();
+
+
         Scanner inputScanner = new Scanner(System.in);
         String sl1file;
         if(args.length>0){
@@ -64,30 +77,26 @@ public class Main {
             e.printStackTrace();
             System.exit(0);
         }
-
+        
         byte[][][] stateModel = IslandDetection.checkIslands(result, layers, rows, columns);
+
+
         System.out.println("Adding Supports");
-        BitSet[][] supportedModel = Supporter.buildSupportsBasic(stateModel);
-        //BitSet[][] supportedModel = result;
+        Mat[] supportedModel = Supporter.buildSupportsBasic(stateModel);
 
         System.out.println("Creating new File");
-        startTime = System.nanoTime();
-
         File supportedDir = FileOutput.modelToPngs(supportedModel,
                 Objects.requireNonNull(pngDir.listFiles(path -> path.getName().equals("config.ini")))[0],
                 pngFiles[0]);
         File outFile = new File(sl1file.substring(0,sl1file.length()-4)+"SUPPORTED.sl1");
-        float zipStartTime = System.nanoTime();
         ZipUtil.pack(supportedDir,outFile);
-        float zipStopTime = System.nanoTime();
-        System.out.println("Zip creation time was: "+ (zipStopTime - zipStartTime)/1000000000 +"s");
+
         deleteDirectory(new File("." + File.separator + "tmp" ));
 
-        stopTime = System.nanoTime();
-        System.out.println("File creation time was: "+ (float)(stopTime - startTime)/1000000000 +"s");
+
+
         System.out.println("Supported file at: "+outFile.getName());
-
-
+        System.out.println("Execution time " + (System.currentTimeMillis()-start)/1000.0 + " s");
 
     }
 

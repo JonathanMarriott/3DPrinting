@@ -28,6 +28,14 @@
             <artifactId>pngj</artifactId>
             <version>2.1.2.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.openpnp</groupId>
+            <artifactId>opencv</artifactId>
+            <version>4.3.0-3</version>
+        </dependency>
+
+
+
     </dependencies>
     <build>
         <plugins>
