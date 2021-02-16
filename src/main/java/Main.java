@@ -1,25 +1,17 @@
 import FileConversion.FileOutput;
 import IslandDetection.IslandDetection;
+import org.opencv.core.Mat;
 import org.zeroturnaround.zip.ZipUtil;
 
-
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import static FileConversion.FileInput.Sl1opener;
-
-
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Objects;
 import java.util.Scanner;
 
-import javax.imageio.ImageIO;
-
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-
-
+import static FileConversion.FileInput.Sl1opener;
 import static FileConversion.FileInput.processPNGs;
 
 public class Main {
@@ -85,6 +77,7 @@ public class Main {
         Mat[] supportedModel = Supporter.buildSupportsBasic(stateModel);
 
         System.out.println("Creating new File");
+
         File supportedDir = FileOutput.modelToPngs(supportedModel,
                 Objects.requireNonNull(pngDir.listFiles(path -> path.getName().equals("config.ini")))[0],
                 pngFiles[0]);
