@@ -4,5 +4,6 @@
         "e:\\random Jars\\pngj-2.1.1.jar",
         "c:\\Users\\ljtan\\.m2\\repository\\org\\zeroturnaround\\zt-zip\\1.14\\zt-zip-1.14.jar"
     ],
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "maven.view": "flat"
 }

@@ -2,3 +2,7 @@ tmp/*
 .vscode/*
 target/*
 .settings/*
+bin/*
+
+.classpath
+testSliceSUPPORTED.sl1

@@ -1,7 +1,0 @@
-User Story
-
-  The user wants to print their 3D model that they have created in a CAD program. They have this model saved in its splices. 
-  In order to avoid the print from failing they want to use our program to scan through the model and add supports to the model
-  so that it can be printed. The program should be a .exe executable that they can run on their computer. The program should have
-  an upload/import option to load the splice into it. It should then analyse it and output a new set of splices with now added supports.
-  The user can then simply sned this file straight to the printer and it should be adequately supported so that the print is successful.
