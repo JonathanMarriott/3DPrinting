@@ -78,7 +78,7 @@ public class Main {
         File outFile = new File(sl1file.substring(0,sl1file.length()-4)+"SUPPORTED.sl1");
         ZipUtil.pack(supportedDir,outFile);
 
-        assert(deleteDirectory(new File("." + File.separator + "SliceSupporterTmp" )));
+        deleteDirectory(new File("." + File.separator + "SliceSupporterTmp" ));
 
         long stopTime = System.nanoTime();
         System.out.println("Supported file at: "+outFile.getName()+" in "+ (float)(stopTime - startTime)/1000000000 +"s");
