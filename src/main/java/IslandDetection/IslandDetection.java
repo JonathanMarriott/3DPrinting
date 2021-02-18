@@ -93,20 +93,26 @@ public class IslandDetection {
     private static boolean isConnected (byte[][][] stateModel, BitSet[][] model, int layer, int row, int column){
         boolean connected = false;
         if(layer == 0) return true;
-        if (stateModel[layer - 1][row][column] == SUPPORTED) connected = true;
+        if (stateModel[layer - 1][row][column] == SUPPORTED) return true;
         //the %2 == 1 bit checks whether it is supported or connected, as SUPPORTED(1) % 2 == 1 and CONNECTED(3) % 2 == 1
-        else if (stateModel[layer - 1][row-1][column] % 2 == 1 && model[layer][row-1].get(column) == true){
-            connected = true;
+        for(int i = -3; i<=3; i++){
+            for(int j = -3;j<=3; j++){
+                if (stateModel[layer - 1][row - i][column - j] % 2 == 1 && model[layer][row - i].get(column - j) == true) {
+                    connected = true;
+//                }
+//                else if (stateModel[layer - 1][row+1][column] % 2 == 1 && model[layer][row+1].get(column) == true){
+//                    connected = true;
+//                }
+//                else if (stateModel[layer - 1][row][column-1] % 2 == 1 && model[layer][row].get(column-1) == true){
+//                    connected = true;
+//                }
+//                else if (stateModel[layer - 1][row][column+1] % 2 == 1 && model[layer][row].get(column+1) == true){
+//                    connected = true;
+                    break;
+                }
+            }
         }
-        else if (stateModel[layer - 1][row+1][column] % 2 == 1 && model[layer][row+1].get(column) == true){
-            connected = true;
-        }
-        else if (stateModel[layer - 1][row][column-1] % 2 == 1 && model[layer][row].get(column-1) == true){
-            connected = true;
-        }
-        else if (stateModel[layer - 1][row][column+1] % 2 == 1 && model[layer][row].get(column+1) == true){
-            connected = true;
-        }
+
         return connected;
     }
     
