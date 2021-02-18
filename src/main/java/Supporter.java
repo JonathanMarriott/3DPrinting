@@ -1,5 +1,7 @@
-import java.util.ArrayList;
 import java.util.BitSet;
+
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
 
 public class Supporter {
     public static void main(String[] args){
@@ -10,7 +12,7 @@ public class Supporter {
     public static final byte ISLAND = 2;
     public static final byte CONNECTED = 3;
 
-    public static BitSet[][] buildSupportsBasic(byte[][][] stateModel){
+    public static Mat[] buildSupportsBasic(byte[][][] stateModel){
         int HEIGHT = stateModel.length;
         if(HEIGHT == 0) return null;
         int WIDTH = stateModel[0].length;
@@ -19,9 +21,14 @@ public class Supporter {
         if(DEPTH == 0) return null;
 
 //        BitSet outSet = new BitSet(HEIGHT*WIDTH*DEPTH);
+        Mat[] outSets = new Mat[HEIGHT];
         BitSet[][] outSet = new BitSet[HEIGHT][WIDTH];
 
         //boolean[][][] output = new boolean[HEIGHT][WIDTH][DEPTH];
+        
+        for (int i = 0 ; i < HEIGHT ; ++i) {
+            outSets[i] = new Mat(WIDTH,DEPTH,CvType.CV_8U);
+        }
 
         boolean[][] supportNeeded = new boolean[WIDTH][DEPTH];
 
@@ -31,8 +38,10 @@ public class Supporter {
             for(int j = 0; j < WIDTH; j++){
                 byte[] row = slice[j];
                 //Cell[] row = slice[j];
-                outSet[i][j] = new BitSet(DEPTH);
+                //outSet[i][j] = new BitSet(DEPTH);
+               
                 for(int k = 0; k < DEPTH; k++){
+                    
 
                     //test cell - I know that in the testSlice, 0,907,542 is a white pixel
                     /* 
@@ -47,14 +56,16 @@ public class Supporter {
                     byte cell = row[k];
                     //Cell cell = row[k];
                     if(cellOn(cell)) {
-                        outSet[i][j].set(k, true);
+                        outSets[i].put(j,k,0xffff);
+                        //outSet[i][j].set(k, true);
                         //output[i][j][k] = true;
                     }
                     if (cell == ISLAND) {
                         supportNeeded[j][k] = true;
                     } else{
                         if(supportNeeded[j][k]) {
-                            outSet[i][j].set(k, true);
+                            outSets[i].put(j,k,0xffff);
+                            //outSet[i][j].set(k, true);
                             //output[i][j][k] = true;
                         }
                     }
@@ -62,7 +73,7 @@ public class Supporter {
             }
         }
 
-        return outSet;
+        return outSets;
     }
 
     public static int getPosition(int HEIGHT, int WIDTH, int DEPTH, int h, int w, int d){
