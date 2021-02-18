@@ -101,10 +101,10 @@ public class IslandDetection {
         else if (stateModel[layer - 1][row+1][column] % 2 == 1 && model[layer][row+1].get(column) == true){
             connected = true;
         }
-        else if (stateModel[layer - 1][row][column] % 2 == 1 && model[layer][row].get(column-1) == true){
+        else if (stateModel[layer - 1][row][column-1] % 2 == 1 && model[layer][row].get(column-1) == true){
             connected = true;
         }
-        else if (stateModel[layer - 1][row][column] % 2 == 1 && model[layer][row].get(column-1) == true){
+        else if (stateModel[layer - 1][row][column+1] % 2 == 1 && model[layer][row].get(column+1) == true){
             connected = true;
         }
         return connected;
