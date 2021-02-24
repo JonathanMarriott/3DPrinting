@@ -42,8 +42,7 @@ public class Main {
         try {
             pngDir = Sl1opener(sl1file);
         } catch (Exception e) {
-            System.out.println("File is malformed");
-            e.printStackTrace();
+            System.out.println("File is malformed or does not exist");
             System.exit(1);
         }
 

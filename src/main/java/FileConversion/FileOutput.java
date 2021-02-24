@@ -19,7 +19,13 @@ public class FileOutput {
     public static File modelToPngs(Mat[] model, File sl1Dir){
         File configFile = Objects.requireNonNull(sl1Dir.listFiles(path -> path.getName().equals("config.ini")))[0];
         File pngExample = Objects.requireNonNull(sl1Dir.listFiles(pathname -> pathname.getName().endsWith(".png")))[0];
-        File prusaFile = Objects.requireNonNull(sl1Dir.listFiles(path -> path.getName().equals("prusaslicer.ini")))[0];
+        File[] prusaFiles = sl1Dir.listFiles(path -> path.getName().equals("prusaslicer.ini"));
+        File prusaFile = null;
+        boolean prusaFilePresent = false;
+        if (prusaFiles != null && prusaFiles.length>1){
+            prusaFilePresent = true;
+            prusaFile = prusaFiles[0];
+        }
         Properties config = new Properties();
         try (FileInputStream in = new FileInputStream(configFile)) {
             config.load(in);
@@ -40,7 +46,9 @@ public class FileOutput {
         }
         try {
             FileUtils.copyFile(configFile,new File("."+File.separator+"SliceSupporterTmp"+File.separator+"out"+File.separator+"config.ini"));
-            FileUtils.copyFile(prusaFile,new File("."+File.separator+"SliceSupporterTmp"+File.separator+"out"+File.separator+"prusaslicer.ini"));
+            if (prusaFilePresent) {
+                FileUtils.copyFile(prusaFile, new File("." + File.separator + "SliceSupporterTmp" + File.separator + "out" + File.separator + "prusaslicer.ini"));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
