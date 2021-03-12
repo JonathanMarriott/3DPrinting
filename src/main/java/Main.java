@@ -55,10 +55,11 @@ public class Main {
         //Concurrently converts PNGs to 3D matrix using BitSets
         BitSet[][] result = processPNGs(pngFiles);
 
-        long stopTime = System.nanoTime();
-        System.out.println("File opening time was: "+ (float)(stopTime - startTime)/1000000000 +"s");
+        // long stopTime = System.nanoTime();
+        System.out.println("File opening time was: "+ (float)(System.nanoTime() - startTime)/1000000000 +"s");
 
         System.out.println("Checking for Islands");
+        startTime = System.nanoTime();
         int layers = pngFiles.length;
         int rows = -1, columns = -1;
         try{
@@ -72,11 +73,17 @@ public class Main {
         
         byte[][][] stateModel = IslandDetection.checkIslands(result, layers, rows, columns);
 
+        System.out.println("Island Detection time was: "+ (float)(System.nanoTime() - startTime)/1000000000 +"s");
+
 
         System.out.println("Adding Supports");
+        startTime = System.nanoTime();
         Mat[] supportedModel = Supporter.buildSupportsBasic(stateModel);
 
+        System.out.println("Support Building time was: "+ (float)(System.nanoTime() - startTime)/1000000000 +"s");
+
         System.out.println("Creating new File");
+        startTime = System.nanoTime();
 
         File supportedDir = FileOutput.modelToPngs(supportedModel,
                 Objects.requireNonNull(pngDir.listFiles(path -> path.getName().equals("config.ini")))[0],
@@ -85,6 +92,8 @@ public class Main {
         ZipUtil.pack(supportedDir,outFile);
 
         deleteDirectory(new File("." + File.separator + "tmp" ));
+
+        System.out.println("File writing time was: "+ (float)(System.nanoTime() - startTime)/1000000000 +"s");
 
 
 
