@@ -35,7 +35,7 @@ public class Supporter {
         //variables for progress bar
         int progress = 0;
         int progressTen;
-        char[] out = "\r|          | ".toCharArray();
+        char[] out = "\r[          ] ".toCharArray();
 
         for(int i = HEIGHT - 1; i >= 0; i--){
             //progress bar

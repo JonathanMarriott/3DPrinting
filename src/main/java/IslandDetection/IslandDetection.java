@@ -14,8 +14,20 @@ public class IslandDetection {
     public static byte[][][] checkIslands (BitSet[][] model, int layers, int rows, int columns){
         byte[][][] stateModel = new byte[layers][rows][columns];
 
+        //variables for progress bar
+        int progress = 0;
+        int progressTen;
+        char[] out = "\r[          ] ".toCharArray();
+
         //i is layer, j is row, k is column
         for (int i = 0; i < layers; i++){
+            //progress bar
+            if((((i + 1) * 100) / layers) > progress){
+                progress = progress + 1;
+                progressTen = progress % 10;
+                if(progressTen == 0) out[(progress / 10)+1] = '=';
+                System.out.print(String.valueOf(out) + String.valueOf(progress) + "%");
+            }
             for (int j = 0; j < rows; j++){
                 for (int k = 0; k < columns; k++){
                     //System.out.println(model[i][j].size());
@@ -38,6 +50,7 @@ public class IslandDetection {
                 }
             }
         }
+        System.out.print("\n");
         return stateModel;
     }
     

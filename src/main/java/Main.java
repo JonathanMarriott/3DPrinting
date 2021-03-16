@@ -55,7 +55,6 @@ public class Main {
         //Concurrently converts PNGs to 3D matrix using BitSets
         BitSet[][] result = processPNGs(pngFiles);
 
-        // long stopTime = System.nanoTime();
         System.out.println("File opening time was: "+ (float)(System.nanoTime() - startTime)/1000000000 +"s");
 
         System.out.println("Checking for Islands");
