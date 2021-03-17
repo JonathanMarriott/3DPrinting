@@ -4,6 +4,8 @@ import ar.com.hjg.pngj.PngReader;
 import org.opencv.core.Mat;
 import org.zeroturnaround.zip.commons.FileUtils;
 
+import ProgressBar.ProgressBar;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,11 +29,14 @@ public class FileOutput {
         File outDir = new File("."+File.separator+"tmp"+File.separator+"out");
         outDir.mkdir();//ok to ignore
         ArrayList<CompletableFuture<Void>> futures = new ArrayList<>();
+
+        ProgressBar progressBar = new ProgressBar(model.length);
+
         for(int i = 0; i< model.length; i++){
             //File outFile = new File("."+File.separator+"tmp"+File.separator+"out"+File.separator+jobDir+String.format("%05d",i)+".png");
             String stringFile = "."+File.separator+"tmp"+File.separator+"out"+File.separator+jobDir+String.format("%05d",i)+".png";
             //Imgcodecs.imwrite(stringFile,model[i]);
-            futures.add(CompletableFuture.runAsync(new OutRunnable(stringFile,model[i])));
+            futures.add(CompletableFuture.runAsync(new OutRunnable(stringFile,model[i], progressBar)));
 
 //            File outFile = new File("."+File.separator+"tmp"+File.separator+"out"+File.separator+jobDir+String.format("%05d",i)+".png");
 //            futures.add(CompletableFuture.runAsync(new OutputRunnable(model[i],outFile, reader.getImgInfo())));

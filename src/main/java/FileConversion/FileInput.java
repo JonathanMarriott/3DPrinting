@@ -3,6 +3,8 @@ package FileConversion;
 
 import org.zeroturnaround.zip.ZipUtil;
 
+import ProgressBar.ProgressBar;
+
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -35,8 +37,9 @@ public class FileInput {
     //Create a list for the concurrent futures to be stored
     ArrayList<CompletableFuture<Object[]>> futures = new ArrayList<>();
     int pos = 0;// Used to order the layers if they come back in a different order after processing
+    ProgressBar progressBar = new ProgressBar(pngFiles.length);
     for (File png : pngFiles) {
-      futures.add(CompletableFuture.supplyAsync(new InputSupplier(png, pos))); // Each PNG is supplied as a new task to the common thread pool
+      futures.add(CompletableFuture.supplyAsync(new InputSupplier(png, pos, progressBar))); // Each PNG is supplied as a new task to the common thread pool
       pos++;
     }
     CompletableFuture[] cfs = futures.toArray(new CompletableFuture[0]); // Convert list of futures to an array
