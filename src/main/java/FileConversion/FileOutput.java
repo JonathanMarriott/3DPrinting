@@ -33,13 +33,9 @@ public class FileOutput {
         ProgressBar progressBar = new ProgressBar(model.length);
 
         for(int i = 0; i< model.length; i++){
-            //File outFile = new File("."+File.separator+"tmp"+File.separator+"out"+File.separator+jobDir+String.format("%05d",i)+".png");
             String stringFile = "."+File.separator+"tmp"+File.separator+"out"+File.separator+jobDir+String.format("%05d",i)+".png";
-            //Imgcodecs.imwrite(stringFile,model[i]);
             futures.add(CompletableFuture.runAsync(new OutRunnable(stringFile,model[i], progressBar)));
 
-//            File outFile = new File("."+File.separator+"tmp"+File.separator+"out"+File.separator+jobDir+String.format("%05d",i)+".png");
-//            futures.add(CompletableFuture.runAsync(new OutputRunnable(model[i],outFile, reader.getImgInfo())));
         }
         try {
             FileUtils.copyFile(configFile,new File("."+File.separator+"tmp"+File.separator+"out"+File.separator+"config.ini"));

@@ -21,16 +21,8 @@ public class IslandDetection {
         for (int i = 0; i < layers; i++){
             //progress bar
             progressBar.makeProgress();
-            // if((((i + 1) * 100) / layers) > progress){
-            //     progress = progress + 1;
-            //     progressTen = progress % 10;
-            //     if(progressTen == 0) out[(progress / 10)+1] = '=';
-            //     System.out.print(String.valueOf(out) + String.valueOf(progress) + "%");
-            // }
             for (int j = 0; j < rows; j++){
                 for (int k = 0; k < columns; k++){
-                    //System.out.println(model[i][j].size());
-                    //System.out.println(model[i][j].length());
                     if (i == 0){
                         if (model[0][j].get(k) == true){
                             stateModel[0][j][k] = SUPPORTED;
@@ -52,34 +44,6 @@ public class IslandDetection {
         return stateModel;
     }
     
-    /*
-    public static BitSet[][] checkIslands (BitSet[][] model){
-        for (int i = 0; i < model.length; i++){
-            for (int j = 0; j < model[i].length; j++){
-                for (int k = 0; k < model[i][j].size(); k++){
-                    if (i == 0){
-                        if (model[0][j].get(k) == true){
-                            stateModel[0][j][k] = State.SUPPORTED;
-                            model[0][j].set(k, State.SUPPORTED);
-                        }
-                        else{
-                            stateModel[0][j][k] = State.OFF;
-                        }
-                    }
-                    else{
-                        if (model[i - 1][j].get(k) == true){
-                            if(isSupported(model, i, j, k) == true) stateModel[i][j][k] = State.SUPPORTED;
-                            else stateModel[i][j][k] = State.ISLAND;
-                        }
-                        else stateModel[0][j][k] = State.OFF;
-                    }
-                }
-            }
-        }
-        return model;
-    }
-    */
-
     private static boolean isSupported (BitSet[][] model, int layer, int row, int column){
         boolean supported = false;
         if (model[layer - 1][row].get(column) == true){
@@ -87,28 +51,5 @@ public class IslandDetection {
         }
         return supported;
     }
-
-    /* potential isConnected function
-
-    private boolean isConnected (BitSet[][] model, int column, int layer, int row){
-        boolean connected = false;
-        if (model[layer - 1][row].get(column) == true){
-            connected = true;
-        }
-        if (model[layer - 1][row-1].get(column) == true && model[layer][row-1].get(column) == true){
-            connected = true;
-        }
-        if (model[layer - 1][row+1].get(column) == true && model[layer][row+1].get(column) == true){
-            connected = true;
-        }
-        if (model[layer - 1][row].get(column-1) == true && model[layer][row].get(column-1) == true){
-            connected = true;
-        }
-        if (model[layer - 1][row].get(column-1) == true && model[layer][row].get(column-1) == true){
-            connected = true;
-        }
-        return connected;
-    }
-    */
 
 }
