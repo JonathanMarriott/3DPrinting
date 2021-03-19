@@ -21,16 +21,8 @@ public class IslandDetection {
         for (int i = 0; i < layers; i++){
             //progress bar
             progressBar.makeProgress();
-            // if((((i + 1) * 100) / layers) > progress){
-            //     progress = progress + 1;
-            //     progressTen = progress % 10;
-            //     if(progressTen == 0) out[(progress / 10)+1] = '=';
-            //     System.out.print(String.valueOf(out) + String.valueOf(progress) + "%");
-            // }
             for (int j = 0; j < rows; j++){
                 for (int k = 0; k < columns; k++){
-                    //System.out.println(model[i][j].size());
-                    //System.out.println(model[i][j].length());
                     if (i == 0){
                         if (model[0][j].get(k) == true){
                             stateModel[0][j][k] = SUPPORTED;
@@ -44,7 +36,7 @@ public class IslandDetection {
                             if(isSupported(stateModel, i, j, k) == true) stateModel[i][j][k] = SUPPORTED;
                             else if (isConnected(stateModel, model, i, j, k) == true){
                                 stateModel[i][j][k] = CONNECTED;
-                            } 
+                            }
                             else stateModel[i][j][k] = ISLAND;
                         }
                         else stateModel[i][j][k] = OFF;
@@ -82,7 +74,6 @@ public class IslandDetection {
         return model;
     }
     */
-    
     /*
     private static boolean isSupported (BitSet[][] model, int layer, int row, int column){
         boolean supported = false;
@@ -126,6 +117,6 @@ public class IslandDetection {
 
         return connected;
     }
-    
+
 
 }
