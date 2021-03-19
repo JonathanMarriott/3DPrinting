@@ -16,7 +16,7 @@ import static FileConversion.FileInput.processPNGs;
 public class Main {
     public static void main(String[] args){
         nu.pattern.OpenCV.loadLocally();
-        long startTime = System.currentTimeMillis();
+
 
 
         Scanner inputScanner = new Scanner(System.in);
@@ -34,9 +34,9 @@ public class Main {
             sl1file = inputScanner.nextLine();
         }
         inputScanner.close();
-
-        System.out.println("File opening");
+        long start = System.currentTimeMillis();
         long startTime = System.nanoTime();
+        System.out.println("File opening");
 
         File pngDir = null; // Extracts the file and returns the directory
         try {
