@@ -16,7 +16,7 @@ import static FileConversion.FileInput.processPNGs;
 public class Main {
     public static void main(String[] args){
         nu.pattern.OpenCV.loadLocally();
-        long startTime = System.nanoTime();
+        long startTime = System.currentTimeMillis();
 
 
         Scanner inputScanner = new Scanner(System.in);
@@ -36,7 +36,7 @@ public class Main {
         inputScanner.close();
 
         System.out.println("File opening");
-
+        long startTime = System.nanoTime();
 
         File pngDir = null; // Extracts the file and returns the directory
         try {
@@ -52,8 +52,10 @@ public class Main {
         //Concurrently converts PNGs to 3D matrix using BitSets
         BitSet[][] result = processPNGs(pngFiles);
 
+        System.out.println("File opening time was: "+ (float)(System.nanoTime() - startTime)/1000000000 +"s");
 
         System.out.println("Checking for Islands");
+        startTime = System.nanoTime();
         int layers = pngFiles.length;
         int rows = -1, columns = -1;
         try{
@@ -67,11 +69,17 @@ public class Main {
         
         byte[][][] stateModel = IslandDetection.checkIslands(result, layers, rows, columns);
 
+        System.out.println("Island Detection time was: "+ (float)(System.nanoTime() - startTime)/1000000000 +"s");
+
 
         System.out.println("Adding Supports");
+        startTime = System.nanoTime();
         Mat[] supportedModel = Supporter.buildSupportsBasic(stateModel);
 
+        System.out.println("Support Building time was: "+ (float)(System.nanoTime() - startTime)/1000000000 +"s");
+
         System.out.println("Creating new File");
+        startTime = System.nanoTime();
 
         File supportedDir = FileOutput.modelToPngs(supportedModel, pngDir);
         File outFile = new File(sl1file.substring(0,sl1file.length()-4)+"SUPPORTED.sl1");
@@ -79,8 +87,12 @@ public class Main {
 
         deleteDirectory(new File("." + File.separator + "SliceSupporterTmp" ));
 
-        long stopTime = System.nanoTime();
-        System.out.println("Supported file at: "+outFile.getName()+" in "+ (float)(stopTime - startTime)/1000000000 +"s");
+        System.out.println("File writing time was: "+ (float)(System.nanoTime() - startTime)/1000000000 +"s");
+
+
+
+        System.out.println("Supported file at: "+outFile.getName());
+        System.out.println("Execution time " + (System.currentTimeMillis()-start)/1000.0 + " s");
 
     }
 

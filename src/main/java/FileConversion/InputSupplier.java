@@ -7,15 +7,19 @@ import java.io.File;
 import java.util.BitSet;
 import java.util.function.Supplier;
 
+import ProgressBar.ProgressBar;
+
 //PNG processing task which is executed concurrently
 //returns a object array {pos,Bitset[]} where index 0 is the position of the layer and index 1 is the bitset array for that layer
 public class InputSupplier implements Supplier<Object[]> {
     private final File pngFile;
     private final int pos;
+    private ProgressBar progressBar;
 
-    public InputSupplier(File pngFile, int pos) {
+    public InputSupplier(File pngFile, int pos, ProgressBar progressBar) {
         this.pngFile = pngFile;
         this.pos = pos;
+        this.progressBar = progressBar;
     }
 
     /*
@@ -42,6 +46,7 @@ public class InputSupplier implements Supplier<Object[]> {
             }
             i++;
         }
+        progressBar.makeProgress();
         return new Object[]{pos,outSet};
     }
 }

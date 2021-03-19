@@ -3,6 +3,8 @@ import java.util.BitSet;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
+import ProgressBar.*;
+
 public class Supporter {
     public static void main(String[] args){
     }
@@ -32,7 +34,12 @@ public class Supporter {
 
         boolean[][] supportNeeded = new boolean[WIDTH][DEPTH];
 
+        ProgressBar progressBar = new ProgressBar(HEIGHT);
+
         for(int i = HEIGHT - 1; i >= 0; i--){
+            //progress bar
+            progressBar.makeProgress();
+
             byte[][] slice = stateModel[i];
             //Cell[][] slice = cells[i];
             for(int j = 0; j < WIDTH; j++){
