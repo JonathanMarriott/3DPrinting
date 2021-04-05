@@ -46,6 +46,7 @@ public class InputSupplier implements Supplier<Object[]> {
             }
             i++;
         }
+        reader.close();
         progressBar.makeProgress();
         return new Object[]{pos,outSet};
     }

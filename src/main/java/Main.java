@@ -66,18 +66,23 @@ public class Main {
             e.printStackTrace();
             System.exit(0);
         }
+
+        pngFiles = null;
+        System.gc();
         
         byte[][][] stateModel = IslandDetection.checkIslands(result, layers, rows, columns);
 
+        result = null;
+        System.gc();
+
         System.out.println("Island Detection time was: "+ (float)(System.nanoTime() - startTime)/1000000000 +"s");
-
-
         System.out.println("Adding Supports");
         startTime = System.nanoTime();
         Mat[] supportedModel = Supporter.buildSupportsBasic(stateModel);
+        stateModel = null;
+        System.gc();
 
         System.out.println("Support Building time was: "+ (float)(System.nanoTime() - startTime)/1000000000 +"s");
-
         System.out.println("Creating new File");
         startTime = System.nanoTime();
 
@@ -88,9 +93,6 @@ public class Main {
         deleteDirectory(new File("." + File.separator + "SliceSupporterTmp" ));
 
         System.out.println("File writing time was: "+ (float)(System.nanoTime() - startTime)/1000000000 +"s");
-
-
-
         System.out.println("Supported file at: "+outFile.getName());
         System.out.println("Execution time " + (System.currentTimeMillis()-start)/1000.0 + " s");
 

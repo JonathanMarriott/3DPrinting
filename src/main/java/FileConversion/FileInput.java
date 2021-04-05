@@ -25,6 +25,7 @@ public class FileInput {
       throw new Exception("No config.ini found in SL1 file provided");
     }
 
+
     return output;
 
   }
