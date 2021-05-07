@@ -65,7 +65,7 @@ public class FileOutput {
         }
         reader.close();
 
-        System.out.println("\r[==========] 100%\n");
+        System.out.println("\r[==========] 100%");
         return new File("."+File.separator+"SliceSupporterTmp"+File.separator+"out");
 
 

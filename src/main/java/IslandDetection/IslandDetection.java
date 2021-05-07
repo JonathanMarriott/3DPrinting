@@ -44,7 +44,7 @@ public class IslandDetection {
                 }
             }
         }
-        System.out.println("\r[==========] 100%\n");
+        System.out.println("\r[==========] 100%");
         return stateModel;
     }
     

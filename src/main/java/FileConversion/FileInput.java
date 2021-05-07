@@ -65,7 +65,7 @@ public class FileInput {
       result[i] = (BitSet[]) posPairs.get(i)[1];
     }
 
-    System.out.println("\r[==========] 100%\n");
+    System.out.println("\r[==========] 100%");
     return result;
   }
 }
