@@ -64,6 +64,8 @@ public class FileOutput {
             e.printStackTrace();
         }
         reader.close();
+
+        System.out.println("\r[==========] 100%\n");
         return new File("."+File.separator+"SliceSupporterTmp"+File.separator+"out");
 
 

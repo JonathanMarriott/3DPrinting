@@ -80,6 +80,7 @@ public class Supporter {
             }
         }
 
+        System.out.println("\r[==========] 100%\n");
         return outSets;
     }
 

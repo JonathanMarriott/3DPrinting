@@ -24,7 +24,7 @@ public class ProgressBar {
                 progressTen = progress % 10;
                 if(progressTen == 0) out[(progress / 10)+1] = '=';
                 System.out.print(String.valueOf(out) + String.valueOf(progress) + "%");
-                if(progress == 100) System.out.print("\n");
+                // if(progress == 100) System.out.print("\n");
             }
         }
     }
