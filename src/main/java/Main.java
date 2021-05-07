@@ -90,7 +90,7 @@ public class Main {
         File outFile = new File(sl1file.substring(0,sl1file.length()-4)+"SUPPORTED.sl1");
         ZipUtil.pack(supportedDir,outFile);
 
-        deleteDirectory(new File("." + File.separator + "SliceSupporterTmp" ));
+        //deleteDirectory(new File("." + File.separator + "SliceSupporterTmp" ));
 
         System.out.println("File writing time was: "+ (float)(System.nanoTime() - startTime)/1000000000 +"s");
         System.out.println("Supported file at: "+outFile.getName());

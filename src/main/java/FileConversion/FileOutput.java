@@ -43,7 +43,7 @@ public class FileOutput {
         ProgressBar progressBar = new ProgressBar(model.length);
 
         for(int i = 0; i< model.length; i++){
-            String stringFile = "."+File.separator+"tmp"+File.separator+"out"+File.separator+jobDir+String.format("%05d",i)+".png";
+            String stringFile = "."+File.separator+"SliceSupporterTmp"+File.separator+"out"+File.separator+jobDir+String.format("%05d",i)+".png";
             futures.add(CompletableFuture.runAsync(new OutRunnable(stringFile,model[i], progressBar)));
 
         }

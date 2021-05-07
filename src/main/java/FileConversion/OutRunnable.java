@@ -18,7 +18,8 @@ public class OutRunnable implements Runnable{
 
     @Override
     public void run() {
-        Imgcodecs.imwrite(stringFile,modelLayer);
+        System.out.println(stringFile);
+        System.out.println(Imgcodecs.imwrite(stringFile,modelLayer));
         progressBar.makeProgress();
     }
 }
