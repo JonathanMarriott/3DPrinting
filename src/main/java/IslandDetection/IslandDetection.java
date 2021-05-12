@@ -84,7 +84,7 @@ public class IslandDetection {
         return supported;
     }
     */
-    private static boolean isSupported (byte[][][] stateModel, int layer, int row, int column){
+    protected static boolean isSupported (byte[][][] stateModel, int layer, int row, int column){
         boolean supported = false;
         if(layer == 0) return true;
         if (stateModel[layer - 1][row][column] == SUPPORTED) supported = true;
@@ -93,7 +93,7 @@ public class IslandDetection {
 
     // returns true if above or diagonally above a supported or connected cell. Only supports gradient >= 1.
 
-    private static boolean isConnected (byte[][][] stateModel, BitSet[][] model, int layer, int row, int column){
+    protected static boolean isConnected (byte[][][] stateModel, BitSet[][] model, int layer, int row, int column){
         boolean connected = false;
         if(layer == 0) return true;
         if (stateModel[layer - 1][row][column] == SUPPORTED) return true;
