@@ -88,15 +88,14 @@ public class Supporter {
                     else{
                         if(supportNeeded[j][k]) {
                             outSets[i].put(j,k,0xffff);
-                            if(i == 0){
-                                for(int a = 0; a<20;a++){
-                                    for(int b = -23+a;b<23-a;b++){
-                                        for(int c = -23+a; c<23-a; c++){
-                                            outSets[a].put(b+j,c+k,0xffff);
-                                        }
+                            if(i <=23){
+                                for(int b = -23+i;b<23-i;b++){
+                                    for(int c = -23+i; c<23-i; c++){
+                                        outSets[i].put(b+j,c+k,0xffff);
                                     }
                                 }
                             }
+
                             //outSet[i][j].set(k, true);
                             //output[i][j][k] = true;
                         }
