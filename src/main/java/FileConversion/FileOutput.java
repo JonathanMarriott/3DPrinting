@@ -24,7 +24,7 @@ public class FileOutput {
         File[] prusaFiles = sl1Dir.listFiles(path -> path.getName().equals("prusaslicer.ini"));
         File prusaFile = null;
         boolean prusaFilePresent = false;
-        if (prusaFiles != null && prusaFiles.length>1){
+        if (prusaFiles != null && prusaFiles.length>=1){
             prusaFilePresent = true;
             prusaFile = prusaFiles[0];
         }
