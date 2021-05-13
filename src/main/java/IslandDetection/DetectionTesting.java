@@ -31,7 +31,7 @@ public class DetectionTesting {
         model[0][5].set(5);
         model[1][5].set(5);
         model[1][6].set(5);
-        assert (IslandDetection.isConnected(stateModel, model, 1, 6, 5));
+        assert (IslandDetection.isConnected(stateModel, model, 1, 6, 5, 25));
         System.out.println("side branch connected - test passed");
         
 

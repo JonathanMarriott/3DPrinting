@@ -2,6 +2,7 @@ package IslandDetection;
 
 import java.util.BitSet;
 import ProgressBar.*;
+import java.lang.Math;
 
 
 public class IslandDetection {
@@ -12,7 +13,7 @@ public class IslandDetection {
     public static final byte CONNECTED = 3;
 
 
-    public static byte[][][] checkIslands (BitSet[][] model, int layers, int rows, int columns){
+    public static byte[][][] checkIslands (BitSet[][] model, int layers, int rows, int columns, int supportedRadius){
         byte[][][] stateModel = new byte[layers][rows][columns];
 
         ProgressBar progressBar = new ProgressBar(layers);
@@ -34,7 +35,7 @@ public class IslandDetection {
                     else{
                         if (model[i][j].get(k) == true){
                             if(isSupported(stateModel, i, j, k) == true) stateModel[i][j][k] = SUPPORTED;
-                            else if (isConnected(stateModel, model, i, j, k) == true){
+                            else if (isConnected(stateModel, model, i, j, k, supportedRadius) == true){
                                 stateModel[i][j][k] = CONNECTED;
                             }
                             else stateModel[i][j][k] = ISLAND;
@@ -93,15 +94,17 @@ public class IslandDetection {
 
     // returns true if above or diagonally above a supported or connected cell. Only supports gradient >= 1.
 
-    protected static boolean isConnected (byte[][][] stateModel, BitSet[][] model, int layer, int row, int column){
+    protected static boolean isConnected (byte[][][] stateModel, BitSet[][] model, int layer, int row, int column, int supportedRadius){
         boolean connected = false;
         if(layer == 0) return true;
         if (stateModel[layer - 1][row][column] == SUPPORTED) return true;
         //the %2 == 1 bit checks whether it is supported or connected, as SUPPORTED(1) % 2 == 1 and CONNECTED(3) % 2 == 1
-        for(int i = -3; i<=3; i++){
-            for(int j = -3;j<=3; j++){
+        for(int i = -supportedRadius; i<=supportedRadius; i++){
+            int limit = (int)Math.floor(Math.sqrt(supportedRadius^2 - i^2));
+            for(int j = -limit;j<=limit; j++){
                 if (stateModel[layer - 1][row - i][column - j] % 2 == 1 && model[layer][row - i].get(column - j) == true) {
-                    connected = true;
+                    // connected = true;
+                    return true;
 //                }
 //                else if (stateModel[layer - 1][row+1][column] % 2 == 1 && model[layer][row+1].get(column) == true){
 //                    connected = true;
@@ -111,7 +114,7 @@ public class IslandDetection {
 //                }
 //                else if (stateModel[layer - 1][row][column+1] % 2 == 1 && model[layer][row].get(column+1) == true){
 //                    connected = true;
-                    break;
+                    // break;
                 }
             }
         }
