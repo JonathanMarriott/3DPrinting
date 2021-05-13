@@ -38,7 +38,8 @@ public class Main {
                 "\n" +
                 "-- Support Radius --\n" +
                 "The support radius defines how much area above a single pixel will be considered supported. A radius of 3 means that any pixel which is less than 3 pixels away from a supported pixel will also be demeed supported.\n" +
-                "You can adjust this by using the -radius flag. For example, adding '-radius 10' to the end of your command line statement will set the radius to be 10 pixels."
+                "You can adjust this by using the -radius flag. For example, adding '-radius 10' to the end of your command line statement will set the radius to be 10 pixels." +
+                "If you are printing a model which has many close, but not connected, pixels, you may need to reduce the support radius, or remove it entirely by setting it to 0. (Setting to a very low value will significantly increase runtime).\n"
                 );
                 return;
             case "-radius":
