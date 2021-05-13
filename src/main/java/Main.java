@@ -1,5 +1,7 @@
 import FileConversion.FileOutput;
+import IslandDetection.DetectionTesting;
 import IslandDetection.IslandDetection;
+
 import org.opencv.core.Mat;
 import org.zeroturnaround.zip.ZipUtil;
 
@@ -22,10 +24,17 @@ public class Main {
         Scanner inputScanner = new Scanner(System.in);
         String sl1file;
         if(args.length>0){
-            sl1file = args[0]; // Take File from command line argument
+            if (args[0].equals("test")) {
+                sl1file = args[0]; // Have to do this so that compiler won't complain :)
+                DetectionTesting.test();
+                System.exit(0);
+            }
+            else{
+                sl1file = args[0]; // Take File from command line argument
+            }
         }
         else {
-
+            
             System.out.println("Enter input sl1 filename: ");
             sl1file = inputScanner.nextLine();
         }
