@@ -1,8 +1,22 @@
-# 3DPrinting
+# 3DPrinting - Slice Supporter
 A program to analyse models for DLP (Resin) 3D printers after slicing to check for islands and add supports where appropriate.
 
-<b>Usage
-1) Provide a .sl1 file as a command line argument or enter when prompted
-2) Program will analyse the file for unsupported regions in the model
-3) Supports will be added to the model to resolve issues
-4) A new supported file will be outputed in the same directory as the program
+<b>Requirements</b>
+
+- Up to date Java installation (version 15+ recommended)
+- 1GB free disk space
+
+<b>Recommendations</b>
+- Modern Processor
+- 8GB of memory (allocate this to the JVM with argument -Xmx8g)
+- Latest version of PrusaSlicer for slicing to SL1
+
+<b>Usage</b>
+- Execute the .jar with the command 
+  ```shell
+   java -Xmx8g -jar SliceSupporter.jar YOURFILEHERE.sl1
+  ```
+- Provide your sl1 filename when prompted if you did not provide it on the command line
+- Program will analyse the file for unsupported regions in the model
+- Supports will be added to the model to resolve issues
+- A new supported file will be outputted in the same directory as the program with SUPPORTED appended to the end.
