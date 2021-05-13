@@ -24,7 +24,7 @@ public class Supporter {
 
 //        BitSet outSet = new BitSet(HEIGHT*WIDTH*DEPTH);
         Mat[] outSets = new Mat[HEIGHT];
-        BitSet[][] outSet = new BitSet[HEIGHT][WIDTH];
+       // BitSet[][] outSet = new BitSet[HEIGHT][WIDTH];
 
         //boolean[][][] output = new boolean[HEIGHT][WIDTH][DEPTH];
         
@@ -73,10 +73,14 @@ public class Supporter {
                     if (cell == ISLAND) {
                         supportNeeded[j][k] = true;
                         supportNeeded[j-1][k-1] = true;
+                    }
+                    if(stateModel[Math.min(i+4,HEIGHT-1)][j][k] == ISLAND){
                         supportNeeded[j-1][k] = true;
                         supportNeeded[j][k-1] = true;
                         supportNeeded[j+1][k] = true;
                         supportNeeded[j][k+1] = true;
+                    }
+                    if (stateModel[Math.min(i+8,HEIGHT-1)][j][k] == ISLAND){
                         supportNeeded[j-1][k+1] = true;
                         supportNeeded[j+1][k-1] = true;
                         supportNeeded[j+1][k+1] = true;
@@ -84,6 +88,15 @@ public class Supporter {
                     else{
                         if(supportNeeded[j][k]) {
                             outSets[i].put(j,k,0xffff);
+                            if(i == 0){
+                                for(int a = 0; a<20;a++){
+                                    for(int b = -23+a;b<23-a;b++){
+                                        for(int c = -23+a; c<23-a; c++){
+                                            outSets[a].put(b+j,c+k,0xffff);
+                                        }
+                                    }
+                                }
+                            }
                             //outSet[i][j].set(k, true);
                             //output[i][j][k] = true;
                         }

@@ -43,6 +43,7 @@ public class Main {
             sl1file = inputScanner.nextLine();
         }
         inputScanner.close();
+        deleteDirectory(new File("." + File.separator + "SliceSupporterTmp" ));
         long start = System.currentTimeMillis();
         long startTime = System.nanoTime();
         System.out.println("File opening");
