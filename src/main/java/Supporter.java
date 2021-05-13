@@ -64,12 +64,24 @@ public class Supporter {
                     //Cell cell = row[k];
                     if(cellOn(cell)) {
                         outSets[i].put(j,k,0xffff);
+                        if (supportNeeded[j][k] && (cell == SUPPORTED || cell == CONNECTED)){
+                            supportNeeded[j][k] = false;
+                        }
                         //outSet[i][j].set(k, true);
                         //output[i][j][k] = true;
                     }
                     if (cell == ISLAND) {
                         supportNeeded[j][k] = true;
-                    } else{
+                        supportNeeded[j-1][k-1] = true;
+                        supportNeeded[j-1][k] = true;
+                        supportNeeded[j][k-1] = true;
+                        supportNeeded[j+1][k] = true;
+                        supportNeeded[j][k+1] = true;
+                        supportNeeded[j-1][k+1] = true;
+                        supportNeeded[j+1][k-1] = true;
+                        supportNeeded[j+1][k+1] = true;
+                    }
+                    else{
                         if(supportNeeded[j][k]) {
                             outSets[i].put(j,k,0xffff);
                             //outSet[i][j].set(k, true);
@@ -91,7 +103,6 @@ public class Supporter {
     }
 
     public static boolean cellOn(Byte cell){
-        if(cell == OFF) return false;
-        return true;
+        return cell != OFF;
     }
 }
