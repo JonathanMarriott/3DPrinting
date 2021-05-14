@@ -1,4 +1,6 @@
 # 3DPrinting - Slice Supporter
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fspe-uob%2F3DPrinting.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fspe-uob%2F3DPrinting?ref=badge_shield)
+
 A program to analyse models for DLP (Resin) 3D printers after slicing to check for islands and add supports where appropriate.
 
 <b>Requirements</b>
