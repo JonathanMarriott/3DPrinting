@@ -22,11 +22,7 @@ public class Supporter {
         int DEPTH = stateModel[0][0].length;
         if(DEPTH == 0) return null;
 
-//        BitSet outSet = new BitSet(HEIGHT*WIDTH*DEPTH);
         Mat[] outSets = new Mat[HEIGHT];
-       // BitSet[][] outSet = new BitSet[HEIGHT][WIDTH];
-
-        //boolean[][][] output = new boolean[HEIGHT][WIDTH][DEPTH];
         
         for (int i = 0 ; i < HEIGHT ; ++i) {
             outSets[i] = new Mat(WIDTH,DEPTH,CvType.CV_8U);
@@ -41,25 +37,11 @@ public class Supporter {
             progressBar.makeProgress();
 
             byte[][] slice = stateModel[i];
-            //Cell[][] slice = cells[i];
             for(int j = 0; j < WIDTH; j++){
                 byte[] row = slice[j];
-                //Cell[] row = slice[j];
-                //outSet[i][j] = new BitSet(DEPTH);
-               
-                for(int k = 0; k < DEPTH; k++){
-                    
 
-                    //test cell - I know that in the testSlice, 0,907,542 is a white pixel
-                    /* 
-                    if (i == 0) {
-                        if (j == 907) {
-                            if (k == 542) {
-                                System.out.println();
-                            }
-                        }
-                    }
-                    */
+                for(int k = 0; k < DEPTH; k++){
+
                     byte cell = row[k];
                     //Cell cell = row[k];
                     if(cellOn(cell)) {
@@ -67,8 +49,6 @@ public class Supporter {
                         if (supportNeeded[j][k] && (cell == SUPPORTED || cell == CONNECTED)){
                             supportNeeded[j][k] = false;
                         }
-                        //outSet[i][j].set(k, true);
-                        //output[i][j][k] = true;
                     }
                     if (cell == ISLAND) {
                         supportNeeded[j][k] = true;
@@ -95,9 +75,6 @@ public class Supporter {
                                     }
                                 }
                             }
-
-                            //outSet[i][j].set(k, true);
-                            //output[i][j][k] = true;
                         }
                     }
                 }
@@ -108,11 +85,6 @@ public class Supporter {
         return outSets;
     }
 
-    public static int getPosition(int HEIGHT, int WIDTH, int DEPTH, int h, int w, int d){
-        int sliceStart = (WIDTH*DEPTH) * (HEIGHT - h - 1);
-        int rowStart = (DEPTH) * (w);
-        return sliceStart + rowStart + d;
-    }
 
     public static boolean cellOn(Byte cell){
         return cell != OFF;
