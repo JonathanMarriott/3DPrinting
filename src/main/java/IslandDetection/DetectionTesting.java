@@ -25,7 +25,6 @@ public class DetectionTesting {
         assert !(IslandDetection.isSupported(stateModel, 1, 5, 5));
         System.out.println("not connected to bottom - test passed");
 
-        
         stateModel[0][5][5] = SUPPORTED;
         stateModel[1][5][5] = SUPPORTED;
         model[0][5].set(5);
@@ -33,7 +32,5 @@ public class DetectionTesting {
         model[1][6].set(5);
         assert (IslandDetection.isConnected(stateModel, model, 1, 6, 5, 25));
         System.out.println("side branch connected - test passed");
-        
-
     }
 }
