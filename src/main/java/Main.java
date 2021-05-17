@@ -69,21 +69,6 @@ public class Main {
 
         nu.pattern.OpenCV.loadLocally();
 
-        // if(args.length>0){
-        //     if (args[0].equals("test")) {
-        //         sl1file = args[0]; // Have to do this so that compiler won't complain :)
-        //         DetectionTesting.test();
-        //         System.exit(0);
-        //     }
-        //     else{
-        //         sl1file = args[0]; // Take File from command line argument
-        //     }
-        // }
-        // else {
-            
-        //     System.out.println("Enter input sl1 filename: ");
-        //     sl1file = inputScanner.nextLine();
-        // }
         while (!sl1file.endsWith(".sl1")) { // Check File ends with .sl1
             System.out.println("Enter a input filename ending in sl1: ");
             sl1file = inputScanner.nextLine();
