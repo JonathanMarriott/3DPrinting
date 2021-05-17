@@ -1,9 +1,8 @@
 package IslandDetection;
 
-import java.util.BitSet;
 import ProgressBar.*;
-import java.lang.Math;
 
+import java.util.BitSet;
 
 public class IslandDetection {
 
@@ -48,43 +47,7 @@ public class IslandDetection {
         System.out.println("\r[==========] 100%");
         return stateModel;
     }
-    
-    /*
-    public static BitSet[][] checkIslands (BitSet[][] model){
-        for (int i = 0; i < model.length; i++){
-            for (int j = 0; j < model[i].length; j++){
-                for (int k = 0; k < model[i][j].size(); k++){
-                    if (i == 0){
-                        if (model[0][j].get(k) == true){
-                            stateModel[0][j][k] = State.SUPPORTED;
-                            model[0][j].set(k, State.SUPPORTED);
-                        }
-                        else{
-                            stateModel[0][j][k] = State.OFF;
-                        }
-                    }
-                    else{
-                        if (model[i - 1][j].get(k) == true){
-                            if(isSupported(model, i, j, k) == true) stateModel[i][j][k] = State.SUPPORTED;
-                            else stateModel[i][j][k] = State.ISLAND;
-                        }
-                        else stateModel[0][j][k] = State.OFF;
-                    }
-                }
-            }
-        }
-        return model;
-    }
-    */
-    /*
-    private static boolean isSupported (BitSet[][] model, int layer, int row, int column){
-        boolean supported = false;
-        if (model[layer - 1][row].get(column) == true){
-            supported = true;
-        }
-        return supported;
-    }
-    */
+
     protected static boolean isSupported (byte[][][] stateModel, int layer, int row, int column){
         boolean supported = false;
         if(layer == 0) return true;
@@ -93,9 +56,7 @@ public class IslandDetection {
     }
 
     // returns true if above or diagonally above a supported or connected cell. Only supports gradient >= 1.
-
     protected static boolean isConnected (byte[][][] stateModel, BitSet[][] model, int layer, int row, int column, int supportedRadius){
-        boolean connected = false;
         if(layer == 0) return true;
         if (stateModel[layer - 1][row][column] == SUPPORTED) return true;
         //the %2 == 1 bit checks whether it is supported or connected, as SUPPORTED(1) % 2 == 1 and CONNECTED(3) % 2 == 1
@@ -103,24 +64,10 @@ public class IslandDetection {
             int limit = (int)Math.floor(Math.sqrt(supportedRadius^2 - i^2));
             for(int j = -limit;j<=limit; j++){
                 if (stateModel[layer - 1][row - i][column - j] % 2 == 1 && model[layer][row - i].get(column - j) == true) {
-                    // connected = true;
                     return true;
-//                }
-//                else if (stateModel[layer - 1][row+1][column] % 2 == 1 && model[layer][row+1].get(column) == true){
-//                    connected = true;
-//                }
-//                else if (stateModel[layer - 1][row][column-1] % 2 == 1 && model[layer][row].get(column-1) == true){
-//                    connected = true;
-//                }
-//                else if (stateModel[layer - 1][row][column+1] % 2 == 1 && model[layer][row].get(column+1) == true){
-//                    connected = true;
-                    // break;
                 }
             }
         }
-
-        return connected;
+        return false;
     }
-
-
 }
